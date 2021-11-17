@@ -4,15 +4,15 @@
       "matchers": [
         {
           "type": "phrase",
-          "rule": "Да"
+          "rule": "да"
         },
         {
           "type": "phrase",
-          "rule": "верно"
+          "rule": "начнём"
         },
         {
           "type": "phrase",
-          "rule": "правильно"
+          "rule": "давай"
         }
       ],
       "variables": {}
@@ -25,41 +25,75 @@
         },
         {
           "type": "phrase",
-          "rule": "неверно"
-        },
-        {
-          "type": "phrase",
-          "rule": "неправильно"
+          "rule": "не надо"
         }
       ],
       "variables": {}
     },
-    "/Позвони": {
+    "/Вопрос": {
       "matchers": [
         {
           "type": "phrase",
-          "rule": "позвони еще раз"
+          "rule": "вопрос"
+        },
+        {
+          "type": "phrase",
+          "rule": "следующий вопрос"
+        },
+        {
+          "type": "phrase",
+          "rule": "следующий"
+        },
+        {
+          "type": "phrase",
+          "rule": "дальше"
+        },
+        {
+          "type": "phrase",
+          "rule": "еще"
         }
       ],
       "variables": {}
     },
-    "/Другой номер": {
+    "/Сыграть снова": {
       "matchers": [
         {
           "type": "phrase",
-          "rule": "другой номер"
+          "rule": "сыграть снова"
         },
         {
           "type": "phrase",
-          "rule": "другой телефон"
+          "rule": "сыграть ещё раз"
+        }
+      ],
+      "variables": {}
+    },
+    "/Помощь": {
+      "matchers": [
+        {
+          "type": "phrase",
+          "rule": "помощь"
         },
         {
           "type": "phrase",
-          "rule": "поменяй телефон"
+          "rule": "справка"
         },
         {
           "type": "phrase",
-          "rule": "поменяй номер"
+          "rule": "инструкция"
+        }
+      ],
+      "variables": {}
+    },
+    "/Сколько всего вопросов": {
+      "matchers": [
+        {
+          "type": "phrase",
+          "rule": "сколько всего вопросов"
+        },
+        {
+          "type": "phrase",
+          "rule": "сколько вопросов"
         }
       ],
       "variables": {}

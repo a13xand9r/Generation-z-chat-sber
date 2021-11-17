@@ -19,8 +19,18 @@ export interface ScenarioIntentsVariables extends SaluteRequestVariable {
 }
 
 export interface ScenarioSession extends Record<string, unknown>{
-
+    currentQuestionId?: number
+    correctAnswers?: number
 }
 
 export type ScenarioRequest = SaluteRequest<ScenarioIntentsVariables, ScenarioAppState>
 export type ScenarioHandler = SaluteHandler<ScenarioRequest, ScenarioSession>
+
+export type Question = {
+    question: string
+    answer: string
+    variants: string[]
+    commentRight: string
+    commentWrong: string
+    reaction?: string
+}

@@ -1,4 +1,4 @@
-import { ScenarioRequest } from './types';
+import { ScenarioRequest, Question } from './types';
 import { SmartAppBrainRecognizer } from '@salutejs/recognizer-smartapp-brain'
 import {
     createIntents,
@@ -13,8 +13,9 @@ import {
     SaluteRequest
 } from '@salutejs/scenario'
 import { SaluteMemoryStorage } from '@salutejs/storage-adapter-memory'
-import { noMatchHandler, runAppHandler } from './handlers'
+import { answerHandler, newGameHandler, noMatchHandler, questionHandler, questionQuantityHandler, runAppHandler, startAppHandler } from './handlers'
 import model from './intents.json'
+import { closeApp } from './utils/responses';
 require('dotenv').config()
 
 const storage = new SaluteMemoryStorage()
@@ -22,6 +23,53 @@ const intents = createIntents(model.intents)
 const { intent, match } = createMatchers<ScenarioRequest, typeof intents>()
 
 const userScenario = createUserScenario<ScenarioRequest>({
+    StartApp: {
+        match: () => false,
+        handle: startAppHandler,
+        children: {
+            Yes: {
+                match: intent('/Да', {confidence: 0.4}),
+                handle: ({req, res}, dispatch) => dispatch && dispatch(['Question'])
+            },
+            No: {
+                match: intent('/Нет', {confidence: 0.4}),
+                handle: ({res}) => {
+                    res.setPronounceText('Тогда до встречи!')
+                    closeApp(res)
+                }
+            }
+        }
+    },
+    Question: {
+        match: intent('/Вопрос', {confidence: 0.5}),
+        handle: questionHandler,
+    },
+    AnswerWait: {
+        match: () => false,
+        handle: () => {},
+        children: {
+            QuestionQuantity: {
+                match: intent('/Сколько всего вопросов', {confidence: 0.7}),
+                handle: questionQuantityHandler
+            },
+            Question: {
+                match: intent('/Вопрос', {confidence: 0.5}),
+                handle: questionHandler,
+            },
+            Help: {
+                match: intent('/Помощь', {confidence: 0.7}),
+                handle: noMatchHandler
+            },
+            Answer: {
+                match: req => !!req.message.original_text,
+                handle: answerHandler
+            },
+        }
+    },
+    NewGame: {
+        match: intent('/Сыграть снова', {confidence: 0.5}),
+        handle: newGameHandler
+    }
 })
 
 const systemScenario = createSystemScenario({
