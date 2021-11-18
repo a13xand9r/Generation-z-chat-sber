@@ -49,6 +49,7 @@ const ssmlObject = {
     'зумер': 'зу\'мер',
     'шеймить': 'ше\'ймить',
     'стоник': 'сто\'ник',
+    'кринжов': 'кринжо\'в',
 }
 
 export function addSSML(text: string): string {

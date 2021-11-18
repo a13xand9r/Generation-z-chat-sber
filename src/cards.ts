@@ -1,6 +1,6 @@
 import { CellView, ListCard } from '@salutejs/scenario'
 
-export const createQuestionCard = (question: string, variants: string[]): ListCard => {
+export const createQuestionCard = (questionNumber: number, question: string, variants: string[]): ListCard => {
     const cells: CellView[] = variants.map((item, index) => ({
         type: 'left_right_cell_view',
         divider: {
@@ -48,7 +48,7 @@ export const createQuestionCard = (question: string, variants: string[]): ListCa
                     right: '3x',
                 },
                 content: {
-                    text: question,
+                    text: `${questionNumber}. ${question}`,
                     typeface: 'headline3',
                     text_color: 'default',
                     max_lines: 10

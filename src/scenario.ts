@@ -1,3 +1,4 @@
+import { checkStringSimilarity } from './utils/utils';
 import { ScenarioRequest, Question } from './types';
 import { SmartAppBrainRecognizer } from '@salutejs/recognizer-smartapp-brain'
 import {
@@ -44,32 +45,24 @@ const userScenario = createUserScenario<ScenarioRequest>({
         match: intent('/Вопрос', {confidence: 0.5}),
         handle: questionHandler,
     },
-    AnswerWait: {
-        match: () => false,
-        handle: () => {},
-        children: {
-            QuestionQuantity: {
-                match: intent('/Сколько всего вопросов', {confidence: 0.7}),
-                handle: questionQuantityHandler
-            },
-            Question: {
-                match: intent('/Вопрос', {confidence: 0.5}),
-                handle: questionHandler,
-            },
-            Help: {
-                match: intent('/Помощь', {confidence: 0.7}),
-                handle: noMatchHandler
-            },
-            Answer: {
-                match: req => !!req.message.original_text,
-                handle: answerHandler
-            },
-        }
+    Help: {
+        match: intent('/Помощь', {confidence: 0.7}),
+        handle: noMatchHandler
+    },
+    QuestionQuantity: {
+        match: intent('/Сколько всего вопросов', {confidence: 0.7}),
+        handle: questionQuantityHandler
     },
     NewGame: {
         match: intent('/Сыграть снова', {confidence: 0.5}),
         handle: newGameHandler
-    }
+    },
+    Answer: {
+        match: req => {
+            return intent('/Вариант ответа', {confidence: 0.2})(req) || req.message.normalized_text.includes('NUM_TOKEN')
+        },
+        handle: answerHandler
+    },
 })
 
 const systemScenario = createSystemScenario({
@@ -88,7 +81,7 @@ export const handleNlpRequest = async (request: NLPRequest): Promise<NLPResponse
     const req = createSaluteRequest(request)
     const res = createSaluteResponse(request)
 
-    const sessionId = request.uuid.sub
+    const sessionId = request.uuid.userId
     const session = await storage.resolve(sessionId)
 
     await scenarioWalker({ req, res, session })

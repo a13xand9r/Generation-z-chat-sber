@@ -11,16 +11,14 @@ export interface ScenarioAppState extends AppState {
 }
 
 export interface ScenarioIntentsVariables extends SaluteRequestVariable {
-    product?: string;
-    number?: string;
-    ordinal?: string;
-    category?: string;
-    quantity?: string;
+    variant?: string
+    variant2?: string
 }
 
 export interface ScenarioSession extends Record<string, unknown>{
     currentQuestionId?: number
     correctAnswers?: number
+    isAnswerDone?: boolean
 }
 
 export type ScenarioRequest = SaluteRequest<ScenarioIntentsVariables, ScenarioAppState>
