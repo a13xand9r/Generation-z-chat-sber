@@ -2,7 +2,7 @@ import { ScenarioHandler } from './types';
 import * as dictionary from './system.i18n'
 import { questionsDataBase } from './questionDataBase';
 import { createQuestionCard } from './cards';
-import { addSSML, changeAppealText, checkStringSimilarity, findNumber } from './utils/utils';
+import { addSSML, changeAppealText, findNumber } from './utils/utils';
 import stringSimilarity from 'string-similarity';
 require('dotenv').config()
 
@@ -32,7 +32,7 @@ export const noMatchHandler: ScenarioHandler = async ({ req, res, session }, dis
         res.appendSuggestions(['Вопрос', 'Хватит'])
     } else {
         session.isAnswerDone
-            ? res.appendSuggestions(['Вопрос', 'Хватит'])
+            ? res.appendSuggestions(['Следующий вопрос', 'Хватит'])
             : res.appendSuggestions(['1', '2', '3', 'Хватит'])
 
         // dispatch && dispatch(['AnswerWait'])
@@ -61,7 +61,7 @@ export const questionQuantityHandler: ScenarioHandler = async ({ req, res, sessi
         res.appendSuggestions(['Вопрос', 'Хватит'])
     } else {
         session.isAnswerDone
-            ? res.appendSuggestions(['Вопрос', 'Хватит'])
+            ? res.appendSuggestions(['Следующий вопрос', 'Хватит'])
             : res.appendSuggestions(['1', '2', '3', 'Хватит'])
 
         // dispatch && dispatch(['AnswerWait'])
@@ -76,7 +76,7 @@ export const questionHandler: ScenarioHandler = async ({ req, res, session }, di
     const question = changeAppealText(questionsDataBase[session.currentQuestionId].question, req.request.payload.character.appeal)
     res.appendCard(createQuestionCard(session.currentQuestionId + 1, question, questionsDataBase[session.currentQuestionId].variants))
     res.setPronounceText(addSSML(question + ' ' + questionsDataBase[session.currentQuestionId].variants.join()), { ssml: true })
-    res.appendSuggestions(['Сколько всего вопросов', 'Хватит'])
+    res.appendSuggestions(['1', '2', '3', 'Сколько всего вопросов', 'Хватит'])
     res.setASRHints({
         words: questionsDataBase[session.currentQuestionId].variants,
         enable_letters: true,
@@ -113,7 +113,7 @@ export const answerHandler: ScenarioHandler = async ({ req, res, session }, disp
         responseText = keyset('Верно', {
             comment: changeAppealText(questionsDataBase[session.currentQuestionId as number].commentRight, req.request.payload.character.appeal)
         })
-        res.setEmotion('radost')
+        res.setEmotion('igrivost')
         session.correctAnswers = session.correctAnswers as number + 1
     } else {
         res.setEmotion('nesoglasie')
