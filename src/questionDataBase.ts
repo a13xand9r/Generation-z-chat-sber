@@ -2,7 +2,7 @@ import { Question } from './types';
 
 export const questionsDataBase: Question[] = [
     {
-        question: 'Начнем с простого: что такое «движ»?',
+        question: 'Начнём с простого: что такое «движ»?',
         answer: 'Тусовка',
         variants: [
             'Подделка',
