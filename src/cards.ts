@@ -14,7 +14,7 @@ export const createQuestionCard = (questionNumber: number, question: string, var
                     text: `${index + 1}. ${item}`,
                     text_color: 'default',
                     typeface: 'body1',
-                    max_lines: 2
+                    max_lines: 3
                 },
             }
         },
