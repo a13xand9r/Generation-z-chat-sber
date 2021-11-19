@@ -17,7 +17,7 @@ export const checkStringSimilarity = (req: ScenarioRequest, answer: string) => {
 export const findNumber = (text: string) => {
     const textArr = text.split(' ')
     for (let i = 0; i < textArr.length; i++) {
-        if (!!Number(textArr) && Number(textArr) < 4) return Number(textArr)
+        if (!!Number(textArr[i]) && Number(textArr[i]) < 4) return Number(textArr[i])
     }
 }
 
