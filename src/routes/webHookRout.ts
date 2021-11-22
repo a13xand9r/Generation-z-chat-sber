@@ -6,7 +6,7 @@ export const webHookRout = Router()
 let hookRequestCount = 0
 
 webHookRout.post('/api/hook', async (req, res) => {
-    console.log('api/hook POST request', hookRequestCount)
+    console.log('api/hook POST request', hookRequestCount++)
     res.status(200).json(await handleNlpRequest(req.body))
 })
 
